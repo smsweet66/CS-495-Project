@@ -48,3 +48,41 @@ def getProfiles(request):
     serializer = ProfileSerializer(profiles, many=True)
 
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def getProfile(request, pid):
+    profile = Profile.objects.get(id=pid)
+    serializer = ProfileSerializer(profile, many=False)
+
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def createProfile(request):
+    data = request.data
+    profile = Profile.objects.create(
+        profileName=data['profileName'],
+        bodySizes=data['bodySizes']
+    )
+
+    serializer = ProfileSerializer(profile, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['PUT'])
+def updateProfile(request, pid):
+    profile = Profile.objects.get(id=pid)
+    serializer = ProfileSerializer(profile, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def deleteProfile(request, pid):
+    profile = Profile.objects.get(id=pid)
+    profile.delete()
+
+    return Response('Profile was deleted!')
