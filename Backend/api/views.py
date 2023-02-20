@@ -44,7 +44,7 @@ def getRoutes(request):
 
 @api_view(['GET'])
 def getProfiles(request):
-    profiles = Profile.objects.all()
+    profiles = Profile.objects.get(user=request.user)
     serializer = ProfileSerializer(profiles, many=True)
 
     return Response(serializer.data)
@@ -52,7 +52,7 @@ def getProfiles(request):
 
 @api_view(['GET'])
 def getProfile(request, pid):
-    profile = Profile.objects.get(id=pid)
+    profile = Profile.objects.get(user=request.user, id=pid)
     serializer = ProfileSerializer(profile, many=False)
 
     return Response(serializer.data)
@@ -63,6 +63,7 @@ def createProfile(request):
     data = request.data
     profile = Profile.objects.create(
         profileName=data['profileName'],
+        user=request.user,
         bodySizes=data['bodySizes']
     )
 
@@ -73,6 +74,9 @@ def createProfile(request):
 @api_view(['PUT'])
 def updateProfile(request, pid):
     profile = Profile.objects.get(id=pid)
+    if profile.user.id != request.user.id:
+        return "Access Denied!"
+
     serializer = ProfileSerializer(profile, data=request.data)
     if serializer.is_valid():
         serializer.save()
