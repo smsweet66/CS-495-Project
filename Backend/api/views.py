@@ -1,4 +1,5 @@
 from django.contrib.auth import login
+from django.core.exceptions import MultipleObjectsReturned
 from knox.models import AuthToken
 from knox.views import LoginView
 from knox.auth import TokenAuthentication
@@ -80,10 +81,15 @@ def getProfiles(request):
 @authentication_classes([TokenAuthentication])
 @permission_classes([permissions.IsAuthenticated])
 def getProfile(request, pid):
-    profile = Profile.objects.get(user=request.user, id=pid)
-    serializer = ProfileSerializer(profile, many=False)
+    try:
+        profile = Profile.objects.get(user=request.user, id=pid)
+        serializer = ProfileSerializer(profile, many=False)
 
-    return Response(serializer.data)
+        return Response(serializer.data)
+    except Profile.DoesNotExist:
+        return Response("The profile either does not exist, or does not belong to this user")
+    except MultipleObjectsReturned:
+        return Response("Multiple objects found with this id")
 
 
 @api_view(['POST'])
