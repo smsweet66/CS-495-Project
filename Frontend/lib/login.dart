@@ -13,18 +13,18 @@ class LoginPage extends StatefulWidget
   _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage>
+class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver
 {
-  final Client client = Client();
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final Client _client = Client();
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   Future<String?> _login() async
   {
-    Map response = json.decode((await client.post(loginUrl, body:
+    Map response = json.decode((await _client.post(loginUrl, body:
     {
-      'username': usernameController.text,
-      'password': passwordController.text
+      'username': _usernameController.text,
+      'password': _passwordController.text
     })).body);
 
     return response['token'].toString();
@@ -34,7 +34,6 @@ class _LoginPageState extends State<LoginPage>
   Widget build(BuildContext context)
   {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(title: const Text('Login')),
       body: SingleChildScrollView(
         child: Column(
@@ -52,7 +51,7 @@ class _LoginPageState extends State<LoginPage>
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
-                controller: usernameController,
+                controller: _usernameController,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   labelText: 'Username',
@@ -63,7 +62,7 @@ class _LoginPageState extends State<LoginPage>
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 0),
               child: TextField(
-                controller: passwordController,
+                controller: _passwordController,
                 obscureText: true,
                 decoration: const InputDecoration(
                   border: OutlineInputBorder(),
@@ -75,10 +74,7 @@ class _LoginPageState extends State<LoginPage>
             Container(
               height: 50,
               width: 250,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-                borderRadius: BorderRadius.circular(20)
-              ),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
               child: ElevatedButton(
                 onPressed: (){
                   _login().then((token)
@@ -87,12 +83,12 @@ class _LoginPageState extends State<LoginPage>
                     {
                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MyHomePage(title: "Home", client: client, token: token))
+                          MaterialPageRoute(builder: (context) => MyHomePage(title: "Home", client: _client, token: token))
                       );
                     }
                   });
                 },
-                child: const Text('Login', style: TextStyle(color: Colors.white, fontSize: 25))
+                child: const Text('Login', style: TextStyle(fontSize: 25))
               )
             )
           ]
