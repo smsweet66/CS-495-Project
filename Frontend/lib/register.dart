@@ -3,28 +3,28 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:test/homePage.dart';
-import 'package:test/register.dart';
 import 'package:test/urls.dart';
 
-class LoginPage extends StatefulWidget
-{
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver
-{
+class _RegisterPageState extends State<RegisterPage>
+    with WidgetsBindingObserver {
   final Client _client = Client();
   final _usernameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
   Future<String?> _login() async
   {
-    Map response = json.decode((await _client.post(loginUrl, body:
+    Map response = json.decode((await _client.post(registerUrl, body:
     {
       'username': _usernameController.text,
+      'email': _emailController.text,
       'password': _passwordController.text
     })).body);
 
@@ -63,6 +63,17 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               child: TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Email',
+                  hintText: 'Enter your email address'
+                )
+              )
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+              child: TextField(
                 controller: _passwordController,
                 obscureText: true,
                 decoration: const InputDecoration(
@@ -77,25 +88,20 @@ class _LoginPageState extends State<LoginPage> with WidgetsBindingObserver
               width: 250,
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
               child: ElevatedButton(
-                onPressed: ()
-                {
-                  _login().then((token)
-                  {
-                    if(token != null)
-                    {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: "Home", client: _client, token: token)));
+                onPressed: () {
+                  _login().then((token) {
+                    if (token != null) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => MyHomePage(title: "Home", client: _client, token: token))
+                      );
                     }
                   });
                 },
-                child: const Text('Login', style: TextStyle(fontSize: 25))
+                child: const Text('Register', style: TextStyle(fontSize: 25))
               )
             ),
             TextButton(
-              onPressed: ()
-              {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const RegisterPage()));
-              },
+              onPressed: () => Navigator.pop(context),
               child: const Text('Sign Up')
             )
           ]
