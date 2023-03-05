@@ -1,9 +1,6 @@
-import 'dart:convert';
-
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
-import 'package:test/profile.dart';
-import 'package:test/urls.dart';
+import 'package:test/profilePage.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title, required this.client, required this.token}) : super(key: key);
@@ -19,8 +16,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  List<Profile> profiles = [];
-
   @override
   void initState() {
     super.initState();
@@ -31,21 +26,6 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   void dispose() {
     _tabController.dispose();
     super.dispose();
-  }
-
-  _retrieveProfiles() async
-  {
-    profiles = [];
-
-    List response = json.decode((await widget.client.get(profileUrl)).body);
-    for (var element in response) { profiles.add(Profile.fromMap(element)); }
-    setState(() {});
-  }
-
-  void _deleteProfile(int id)
-  {
-    widget.client.delete(deleteProfileUrl(id));
-    _retrieveProfiles();
   }
 
   @override
@@ -66,9 +46,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             ),
             ListTile(
               title: const Text('Profile'),
-              onTap: () {
-                // TODO: Implement profile screen.
-              },
+              onTap: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ProfilePage(client: widget.client, token: widget.token)))
             ),
             ListTile(
               title: const Text('Settings'),

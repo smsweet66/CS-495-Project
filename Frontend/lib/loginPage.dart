@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:test/homePage.dart';
-import 'package:test/register.dart';
+import 'package:test/registerPage.dart';
 import 'package:test/urls.dart';
 
 class LoginPage extends StatefulWidget

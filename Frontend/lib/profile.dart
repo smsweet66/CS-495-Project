@@ -9,8 +9,8 @@ class Profile
   Profile.fromMap(Map<String, dynamic> map)
   {
     id = map['id'];
-    name = map['name'];
-    List<String> stringList = map['bodySizes'];
+    name = map['profileName'];
+    List<String> stringList = map['bodySizes'].split(',');
     stringList.map((e){
       var intValue = int.tryParse(e);
       bodySizes.add(intValue!);
@@ -21,7 +21,7 @@ class Profile
   {
     return {
       'id': id,
-      'name': name,
+      'profileName': name,
       'bodySizes': bodySizes.join(',')
     };
   }

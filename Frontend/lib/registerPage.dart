@@ -35,7 +35,7 @@ class _RegisterPageState extends State<RegisterPage>
   Widget build(BuildContext context)
   {
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      appBar: AppBar(title: const Text('Register')),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
@@ -102,7 +102,7 @@ class _RegisterPageState extends State<RegisterPage>
             ),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Sign Up')
+              child: const Text('Sign In')
             )
           ]
         )
