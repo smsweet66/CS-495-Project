@@ -13,4 +13,5 @@ to the code and have them appear on the app without having to recompile and rest
 Currently, the server is locally hosted, so the app cannot be run (technically it can, but you won't  
 be able to get past the login page) without starting the server beforehand.  This can be done with the command  
 "/Backend/manage.py runserver".  Starting the app requires that flutter is installed onto the computer.  
-The main file for the app is located in the Frontend/lib folder.
+The main file for the app is located in the Frontend/lib folder and is run by using the command "flutter run"  
+whithin the Frontend folder.
