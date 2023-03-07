@@ -4,6 +4,7 @@ import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 import 'package:test/addProfilePage.dart';
 import 'package:test/profile.dart';
+import 'package:test/updateProfilePage.dart';
 import 'package:test/urls.dart';
 
 class ProfilePage extends StatefulWidget
@@ -56,7 +57,8 @@ class _ProfilePageState extends State<ProfilePage>
           itemBuilder: (BuildContext context, int index) {
             return ListTile(
               title: Text(profiles[index].name),
-              onTap: () {}, //TODO implement profile update
+              onTap: () => Navigator.push(context,
+              MaterialPageRoute(builder: (context) => UpdateProfilePage(client: widget.client, token: widget.token, profile: profiles[index]))),
               trailing: IconButton(
                 icon: const Icon(Icons.delete),
                 onPressed: () => _deleteProfile(profiles[index].id)

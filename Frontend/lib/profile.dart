@@ -11,10 +11,7 @@ class Profile
     id = map['id'];
     name = map['profileName'];
     List<String> stringList = map['bodySizes'].split(',');
-    stringList.map((e){
-      var intValue = int.tryParse(e);
-      bodySizes.add(intValue!);
-    });
+    bodySizes = stringList.map(int.parse).toList();
   }
 
   Map<String, dynamic> toMap()

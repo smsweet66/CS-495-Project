@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
 	Widget build(BuildContext context)
 	{
 		return MaterialApp(
-			title: 'My Flutter App',
+			title: 'Wardrobe',
 			theme: ThemeData(brightness: Brightness.light),
 			darkTheme: ThemeData(brightness: Brightness.dark),
 			themeMode: ThemeMode.system,

@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               child: Text('Menu'),
             ),
             ListTile(
-              title: const Text('Profile'),
+              title: const Text('Profiles'),
               onTap: () => Navigator.push(context,
                   MaterialPageRoute(builder: (context) => ProfilePage(client: widget.client, token: widget.token)))
             ),

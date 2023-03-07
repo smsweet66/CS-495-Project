@@ -116,6 +116,8 @@ def updateProfile(request, pid):
     serializer = ProfileSerializer(profile, data=request.data)
     if serializer.is_valid():
         serializer.save()
+    else:
+        print(serializer.errors)
 
     return Response(serializer.data)
 
